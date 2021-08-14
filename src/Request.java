@@ -14,13 +14,17 @@ enum Order {
 
 //< @brief String command 를 전달받아서, Application.execute()에서 사용될 수 있도록 적절히 파싱해 두는 클래스
 public class Request {
+    //모두 공통으로 사용
     Command command;
     Option option = null;
+
+    //일부 command에서만 사용
     String[] data; //학생들의 학년, 이름을 저장
     Order order = null;
     int grade = 0;
     String name = null;
     boolean pin;
+
     //< @brief 생성자
     Request(String input) {
         String[] input_arr = input.split(" ");
@@ -82,7 +86,6 @@ public class Request {
             case "q":
                 command = Command.QUIT;
                 break;
-
         }
     }
 }
