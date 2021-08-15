@@ -23,7 +23,6 @@ public class Request {
     Order order = null;
     int grade = 0;
     String name = null;
-    boolean pin;
 
     //< @brief 생성자
     Request(String input) {
@@ -75,12 +74,10 @@ public class Request {
                 break;
             case "pin":
                 command = Command.PIN;
-                pin = true;
                 data = Arrays.copyOfRange(input_arr,1,input_arr.length);
                 break;
             case "unpin":
-                command = Command.PIN;
-                pin = false;
+                command = Command.UNPIN;
                 data = Arrays.copyOfRange(input_arr,1,input_arr.length);
                 break;
             case "q":

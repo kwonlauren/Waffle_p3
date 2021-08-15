@@ -1,3 +1,5 @@
+import java.util.Comparator;
+
 //< @brief 학생 클래스입니다.
 public class Student {
     // 학년과 이름은 변하지 않기 때문에 final 변수로 선언, getter만 제공
@@ -41,5 +43,23 @@ public class Student {
     @Override
     public String toString() {
         return String.format("%d | %s", this.grade, this.name);
+    }
+}
+
+class GradeComparator implements Comparator<Student> {
+    @Override
+    public int compare(Student s1, Student s2){
+        if(s1.getGrade() > s2.getGrade()){
+            return 1;
+        } else if (s1.getGrade() < s2.getGrade()){
+            return -1;
+        } return 0;
+    }
+}
+
+class NameComparator implements Comparator<Student> {
+    @Override
+    public int compare(Student s1, Student s2){
+        return s1.getName().compareTo(s2.getName());
     }
 }

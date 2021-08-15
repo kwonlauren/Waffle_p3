@@ -9,3 +9,11 @@ class SameNameExeption extends AppException{
     return "Error 100";
   }
 }
+
+class NoStudentFound extends AppException{
+  @Override
+  public String toString() {
+    return "Error 200";
+  }
+}
+
