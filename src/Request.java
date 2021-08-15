@@ -40,6 +40,7 @@ public class Request {
                 break;
             case "delete":
                 command = Command.DELETE;
+                data = Arrays.copyOfRange(input_arr,1,input_arr.length);
                 break;
             case "list":
                 command = Command.LIST;
