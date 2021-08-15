@@ -145,7 +145,10 @@ public class Main {
                     break;
             }
         }
-
+        if(request.options.contains(Option.r)){
+            Collections.reverse(pinned);
+            Collections.reverse(unpinned);
+        }
         for(Student s: pinned) System.out.println(s.toString());
         for(Student s: unpinned) System.out.println(s.toString());
     }

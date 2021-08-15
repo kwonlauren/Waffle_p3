@@ -50,7 +50,7 @@ public class Request {
                             break;
                         case "-o" :
                             options.add(Option.o);
-                            switch(input_arr[2]){
+                            switch(input_arr[i+1]){
                                 case "grade":
                                     order = Order.grade;
                                     break;
