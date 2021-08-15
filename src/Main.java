@@ -47,10 +47,13 @@ public class Main {
                 list(request);
                 break;
             case PIN:
+                pin(request);
                 break;
             case UNPIN:
+                unpin(request);
                 break;
             case QUIT:
+                System.exit(0);
                 break;
 
         }
@@ -84,7 +87,7 @@ public class Main {
                 break;
             }
         }
-        if(found == false) throw new NoStudentFound();
+        if(!found) throw new NoStudentFound();
     }
 
     static void list(Request request) throws AppException{
@@ -96,39 +99,76 @@ public class Main {
             if(s.getPin()) pinned.add(s);
             else unpinned.add(s);
         }
-
-        switch(request.option){
-            case o:
-                switch(request.order){
-                    case grade:
-                        Collections.sort(unpinned, new GradeComparator());
-                        Collections.sort(pinned, new GradeComparator());
-                        break;
-                    case name:
-                        Collections.sort(unpinned, new NameComparator());
-                        Collections.sort(pinned, new NameComparator());
-                        break;
-                }
-            case g:
-                for(Student s: unpinned){
-                    if(s.getGrade() != request.grade) unpinned.remove(s);
-                }
-                for(Student s: pinned){
-                    if(s.getGrade() != request.grade) pinned.remove(s);
-                }
-            case n:
-                for(Student s: unpinned){
-                    if(s.getName() != request.name) unpinned.remove(s);
-                }
-                for(Student s: pinned){
-                    if(s.getName() != request.name) pinned.remove(s);
-                }
-            case r:
-                Collections.reverse(pinned);
-                Collections.reverse(unpinned);
-
+        for(Option op: request.options) {
+            switch (op) {
+                case o:
+                    switch (request.order) {
+                        case grade:
+                            unpinned.sort(new GradeComparator());
+                            pinned.sort(new GradeComparator());
+                            break;
+                        case name:
+                            unpinned.sort(new NameComparator());
+                            pinned.sort(new NameComparator());
+                            break;
+                    }
+                    break;
+                case g:
+                    ArrayList<Student> new_unpinned = new ArrayList<>();
+                    ArrayList<Student> new_pinned = new ArrayList<>();
+                    for (Student s : unpinned) {
+                        if (s.getGrade() == request.grade) {
+                            new_unpinned.add(s);
+                        }
+                    }
+                    for (Student s : pinned) {
+                        if (s.getGrade() == request.grade) new_pinned.add(s);
+                    }
+                    unpinned = new_unpinned;
+                    pinned = new_pinned;
+                    break;
+                case n:
+                    ArrayList<Student> new_unpinned2 = new ArrayList<>();
+                    ArrayList<Student> new_pinned2 = new ArrayList<>();
+                    for (Student s : unpinned) {
+                        if (s.getName().equals(request.name)) new_unpinned2.add(s);
+                    }
+                    for (Student s : pinned) {
+                        if (s.getName().equals(request.name)) new_pinned2.add(s);
+                    }
+                    unpinned = new_unpinned2;
+                    pinned = new_pinned2;
+                    break;
+                case r:
+                    Collections.reverse(pinned);
+                    Collections.reverse(unpinned);
+                    break;
+            }
         }
+
         for(Student s: pinned) System.out.println(s.toString());
         for(Student s: unpinned) System.out.println(s.toString());
+    }
+
+    static void pin(Request request) throws AppException{
+        boolean found = false;
+        for(Student s: students){
+            if(s.getGrade()==(Integer.parseInt(request.data[0])) && s.getName().equals(request.data[1])){
+                s.setPin(true);
+                found = true;
+            }
+        }
+        if(!found) throw new NoStudentFound();
+    }
+
+    static void unpin(Request request) throws AppException{
+        boolean found = false;
+        for(Student s: students){
+            if(s.getGrade()==(Integer.parseInt(request.data[0])) && s.getName().equals(request.data[1])){
+                s.setPin(false);
+                found = true;
+            }
+        }
+        if(!found) throw new NoStudentFound();
     }
 }

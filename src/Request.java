@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 enum Command {
@@ -16,7 +17,7 @@ enum Order {
 public class Request {
     //모두 공통으로 사용
     Command command;
-    Option option = null;
+    ArrayList<Option> options = new ArrayList<>();
 
     //일부 command에서만 사용
     String[] data; //학생들의 학년, 이름을 저장
@@ -31,7 +32,7 @@ public class Request {
             case "add":
                 command = Command.ADD;
                 if(input_arr[1].equals("-a")){
-                    option = Option.a;
+                    options.add(Option.a);
                     data = Arrays.copyOfRange(input_arr,2,input_arr.length);
                 } else{
                     data = Arrays.copyOfRange(input_arr,1,input_arr.length);
@@ -42,13 +43,13 @@ public class Request {
                 break;
             case "list":
                 command = Command.LIST;
-                if(input_arr[1] != null){
-                    switch(input_arr[1]){
+                for(int i = 1; i<input_arr.length; i++){
+                    switch(input_arr[i]){
                         case "-r":
-                            option = Option.r;
+                            options.add(Option.r);
                             break;
                         case "-o" :
-                            option = Option.o;
+                            options.add(Option.o);
                             switch(input_arr[2]){
                                 case "grade":
                                     order = Order.grade;
@@ -62,12 +63,12 @@ public class Request {
                             }
                             break;
                         case "-g":
-                            option = Option.g;
-                            grade = Integer.parseInt(input_arr[2]);
+                            options.add(Option.g);
+                            grade = Integer.parseInt(input_arr[++i]);
                             break;
                         case "-n":
-                            option = Option.n;
-                            name = input_arr[2];
+                            options.add(Option.n);
+                            name = input_arr[++i];
                             break;
                     }
                 }
